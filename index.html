@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors!</title>
+</head>
+
+<body>
+
+    <script>
+        // all javaScript belongs here
+        // Project Goal: to replicate on console sa Rock - Paper - Scissors game, user vs computer
+        // g1: begin with a function called 'computerPlay' that will randomly return one of ('Rock','Paper','Scissors')
+        // g2: write a function rpsRound() that plays a single round of RPS
+        // g2input: take two parameters (playerSelection, computerSelection) 
+        // g2output: return a string that declares the winner ('You win! Paper beats Rock!')
+        // g2input: -- ! make case insensitive ! so 'rOck' works fine. use prompt()
+        // g3: write new function called game(), which should execute rpsRound() 5 times, returning the winner of more rounds
+        // workspace:
+
+        //g1
+        const choices = ['rock', 'paper', 'scissors'];
+
+        function computerPlay() {
+            let choice = choices[Math.floor(Math.random() * 3)];
+            //console.log(choice);
+            return choice;
+        }
+
+
+
+
+        //g2: write function rpsRound()
+        function rpsRound() {
+            // get playerSelection from prompt()
+            let playerSelection = prompt('rock, paper, or scissors?').toLowerCase();
+            let computerSelection = computerPlay();
+            console.log('player: ', playerSelection);
+            console.log('computer: ', computerSelection);
+            // write game conditions
+            if (playerSelection == 'rock') {
+                if (computerSelection == 'rock') {
+                    return 'tie!'
+                } else if (computerSelection == 'paper') {
+                    return 'computer wins!'
+                } else if (computerSelection == 'scissors') {
+                    return 'player wins!'
+                }
+            } else if (playerSelection == 'paper') {
+                if (computerSelection == 'rock') {
+                    return 'player wins!'
+                } else if (computerSelection == 'paper') {
+                    return 'tie!'
+                } else if (computerSelection == 'scissors') {
+                    return 'computer wins!'
+                }
+            } else if (playerSelection == 'scissors') {
+                if (computerSelection == 'rock') {
+                    return 'computer wins!'
+                } else if (computerSelection == 'paper') {
+                    return 'player wins!'
+                } else if (computerSelection == 'scissors') {
+                    return 'tie'
+                }
+            } else {
+                return 'not a valid selection'
+            }
+        }
+
+        function game(rounds) {
+            playerWinCount = 0;
+            computerWinCount = 0;
+            for (i = 0; i < rounds; i++) {
+                // if player wins add 1 to playerWinCount
+                roundResult = rpsRound();
+                console.log(`round ${i}: ${roundResult}`);
+                if (roundResult == 'player wins!') {
+                    playerWinCount++;
+                } else if (roundResult == 'computer wins!') {
+                    computerWinCount++;
+                } else {
+                    continue;
+                }
+                console.log(`current standings: player: ${playerWinCount}, computer: ${computerWinCount}`);
+            }
+            if (playerWinCount > computerWinCount) {
+                console.log(`player wins, ${playerWinCount} over ${computerWinCount}!`);
+                return (`player wins, ${playerWinCount} over ${computerWinCount}!`);
+            } else if (computerWinCount > playerWinCount) {
+                console.log(`computer wins, ${computerWinCount} over ${playerWinCount}`);
+                return (`computer wins, ${computerWinCount} over ${playerWinCount}`);
+            } else {
+                console.log('tie!');
+                return ('tie!');
+            }
+        }
+    </script>
+</body>
+
+</html>
