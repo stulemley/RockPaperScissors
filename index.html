@@ -9,6 +9,11 @@
 </head>
 
 <body>
+    <button id='rock'>rock</button>
+    <button id='paper'>paper</button>
+    <button id='scissors'>scissors</button>
+    <div id="results"></div>
+    <div id="score"></div>
 
     <script>
         // all javaScript belongs here
@@ -22,6 +27,43 @@
         // workspace:
 
         //g1
+
+        function domGame() {
+            playerWinCount = 0;
+            computerWinCount = 0;
+            const buttons = document.querySelectorAll('button');
+            let results = document.querySelector('#results');
+            let score = document.querySelector('#score');
+            score.textContent = `player: ${playerWinCount} computer: ${computerWinCount}`
+            buttons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    //console.log('player selection:', button.id);
+                    let resultDisplay = rpsRound(button.id);
+                    //results.textContent = `player throws ${playerSelection} and computer throws ${computerSelection}`;
+                    if (resultDisplay == 'player wins!') {
+                        playerWinCount++;
+                    } else if (resultDisplay == 'computer wins!') {
+                        computerWinCount++;
+                    }
+                    score.textContent = `player: ${playerWinCount} computer: ${computerWinCount}`
+                    console.log(playerWinCount, computerWinCount);
+                    if (playerWinCount == 5 || computerWinCount == 5) {
+                        if (playerWinCount == 5) {
+                            resultDisplay = 'player wins the game';
+                        }
+                        if (computerWinCount == 5) {
+                            resultDisplay = 'computer wins the game';
+                        }
+                        console.log(resultDisplay);
+                        results.textContent = resultDisplay;
+                        buttons.forEach((button) => {
+                            button.remove();
+                        });
+                    }
+
+                });
+            });
+        }
         const choices = ['rock', 'paper', 'scissors'];
 
         function computerPlay() {
@@ -34,52 +76,55 @@
 
 
         //g2: write function rpsRound()
-        function rpsRound() {
+        function rpsRound(playerSelection) {
             // get playerSelection from prompt()
-            let playerSelection = prompt('rock, paper, or scissors?').toLowerCase();
+            //let playerSelection = prompt('rock, paper, or scissors?').toLowerCase();
             let computerSelection = computerPlay();
             console.log('player: ', playerSelection);
             console.log('computer: ', computerSelection);
+            let roundResult = '';
             // write game conditions
             if (playerSelection == 'rock') {
                 if (computerSelection == 'rock') {
-                    return 'tie!'
+                    roundResult = 'tie!'
                 } else if (computerSelection == 'paper') {
-                    return 'computer wins!'
+                    roundResult = 'computer wins!'
                 } else if (computerSelection == 'scissors') {
-                    return 'player wins!'
+                    roundResult = 'player wins!'
                 }
             } else if (playerSelection == 'paper') {
                 if (computerSelection == 'rock') {
-                    return 'player wins!'
+                    roundResult = 'player wins!'
                 } else if (computerSelection == 'paper') {
-                    return 'tie!'
+                    roundResult = 'tie!'
                 } else if (computerSelection == 'scissors') {
-                    return 'computer wins!'
+                    roundResult = 'computer wins!'
                 }
             } else if (playerSelection == 'scissors') {
                 if (computerSelection == 'rock') {
-                    return 'computer wins!'
+                    roundResult = 'computer wins!'
                 } else if (computerSelection == 'paper') {
-                    return 'player wins!'
+                    roundResult = 'player wins!'
                 } else if (computerSelection == 'scissors') {
-                    return 'tie'
+                    roundResult = 'tie'
                 }
             } else {
-                return 'not a valid selection'
+                roundResult = 'not a valid selection'
             }
+            return (roundResult)
+                //return ('player:', playerSelection, 'computer:', computerSelection, roundResult)
         }
-
-        function game(rounds) {
+        // made obsolete after domGame() was written 20210118
+        function consoleGame(rounds) {
             playerWinCount = 0;
             computerWinCount = 0;
             for (i = 0; i < rounds; i++) {
                 // if player wins add 1 to playerWinCount
-                roundResult = rpsRound();
-                console.log(`round ${i}: ${roundResult}`);
-                if (roundResult == 'player wins!') {
+                resultDisplay = rpsRound();
+                console.log(`round ${i}: ${resultDisplay}`);
+                if (resultDisplay == 'player wins!') {
                     playerWinCount++;
-                } else if (roundResult == 'computer wins!') {
+                } else if (resultDisplay == 'computer wins!') {
                     computerWinCount++;
                 } else {
                     continue;
@@ -97,6 +142,7 @@
                 return ('tie!');
             }
         }
+        domGame();
     </script>
 </body>
 
